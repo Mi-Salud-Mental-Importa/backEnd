@@ -23,6 +23,8 @@ import com.mental.blog.exceptions.ResourceNotFoundException;
 @Service
 public class PostServiceImpl implements PostService{
 
+
+	//Inject
 	@Autowired
 	private PostRepo postRepo;
 	
@@ -73,6 +75,26 @@ public class PostServiceImpl implements PostService{
 		Post post=this.postRepo.findById(postId)
 				.orElseThrow(()->new ResourceNotFoundException("Post","post id",postId));
 		return this.modelMapper.map(post,PostDTO.class);
+	}
+
+
+	@Override
+	public PostDTO updatePost(PostDTO postDto, Integer postId) {
+        Post post = this.postRepo.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post ", "post id", postId));
+        post.setTitle(postDto.getTitle());
+        post.setContent(postDto.getContent());
+        Post updatedPost = this.postRepo.save(post);
+        return this.modelMapper.map(updatedPost, PostDTO.class);
+	}
+
+
+	@Override
+	public void deletePost(Integer postId) {
+        Post post = this.postRepo.findById(postId)
+                .orElseThrow(() -> new ResourceNotFoundException("Post ", "post id", postId));
+
+        this.postRepo.delete(post);		
 	}
 
 }

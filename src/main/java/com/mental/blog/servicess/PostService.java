@@ -10,4 +10,9 @@ public interface PostService {
 	PostResponse getAllPost(Integer pageNumber, Integer pageSize, String sortBy, String sortDir);
 	
 	PostDTO getPostById(Integer postId);
+
+	PostDTO updatePost(PostDTO postDto, Integer postId);
+
+	void deletePost(Integer postId);
+
 }
